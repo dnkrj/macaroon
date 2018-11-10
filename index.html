@@ -1,0 +1,120 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Macaroon Cooking Agency</title>
+	<link href="style.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Old+Standard+TT' rel='stylesheet' type='text/css'>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
+	<script>
+	$(function() {
+	
+		function filterPath(string) {
+			return string
+			.replace(/^\//,'')
+			.replace(/(index|default).[a-zA-Z]{3,4}$/,'')
+			.replace(/\/$/,'');
+		}
+	
+		var locationPath = filterPath(location.pathname);
+		var scrollElem = scrollableElement('html', 'body');
+	
+		// Any links with hash tags in them (can't do ^= because of fully qualified URL potential)
+		$('a[href*=#]').each(function() {
+	
+			// Ensure it's a same-page link
+			var thisPath = filterPath(this.pathname) || locationPath;
+			if (  locationPath == thisPath
+				&& (location.hostname == this.hostname || !this.hostname)
+				&& this.hash.replace(/#/,'') ) {
+	
+					// Ensure target exists
+					var $target = $(this.hash), target = this.hash;
+					if (target) {
+	
+						// Find location of target
+						var targetOffset = $target.offset().top;
+						$(this).click(function(event) {
+	
+							// Prevent jump-down
+							event.preventDefault();
+	
+							// Animate to target
+							$(scrollElem).animate({scrollTop: targetOffset}, 600, function() {
+	
+								// Set hash in URL after animation successful
+								location.hash = target;
+	
+							});
+						});
+					}
+			}
+	
+		});
+	
+		// Use the first element that is "scrollable"  (cross-browser fix?)
+		function scrollableElement(els) {
+			for (var i = 0, argLength = arguments.length; i <argLength; i++) {
+				var el = arguments[i],
+				$scrollElement = $(el);
+				if ($scrollElement.scrollTop()> 0) {
+					return el;
+				} else {
+					$scrollElement.scrollTop(1);
+					var isScrollable = $scrollElement.scrollTop()> 0;
+					$scrollElement.scrollTop(0);
+					if (isScrollable) {
+						return el;
+					}
+				}
+			}
+			return [];
+		}
+	
+	});
+	</script>
+</head>
+
+<body>
+	<div class="page" id="intro">
+		<div class="content">
+			<div id="logo">
+				<a href="index.html">
+					<img src="logo.png">
+				</a>
+			</div>
+			<p class="text">
+				Macaroon is a new vibrant and dynamic cooking agency. We provide cooks and assistant cooks for full time, part time, temporary and permanent positions to private clients both in the UK and abroad. Our priority is to ensure that the skills, experience and personality of our staff match the expectations of our clients thus providing the best possible service to ensure everyone is happy.
+			</p>
+			<p id="more">
+				<a href="#about">More about us</a>
+			</p><p>
+				rowena@macarooncooks.com
+				<br/>07769 891 248
+				<br/>SW6
+			</p>
+		</div>
+	</div>
+
+	<div class="page" id="about">
+		<div class="content" id="story">
+			<h2>Our Story</h2>
+			<p class="text">
+ 				Macaroon was set up by Rowena Macrae who was born and bred in Scotland and has spent much of her life up in the Highlands. Among her favourite past times are walking the hills (whatever the weather!) in the hope of catching a trout, lobster potting, picking mussels and bobbing around on Loch Duich for hours on end fishing for mackerel. The excitement of seeing what was caught, pulled up or picked is almost as great now as it was growing up. Serving up a delicious supper or lunch out of what she caught is the most rewarding, not to say delicious, experience.
+ 			</p>
+ 			<p>
+				<a href="#about2">Continue</a>
+			</p>
+		</div>
+	</div>
+	<div class="page" id="about2">
+		<div class="content" id="story2">
+			<p class="text">
+ 				 After leaving school she went to The Grange cookery course in Frome, Somerset where she gained a cookery qualification. Since the course she has used what she learnt there to do two ski seasons and many cooking jobs all over the country and abroad in her university holidays. Since then has since been in London working in a number of sectors, starting in travel, moving on to property and most recently PR. Her heart has always been set on setting up her own business and she realised she would never be satisfied until then so Macaroon was born!
+ 			</p>
+ 			<p>
+				<a href="#intro">Back to the top</a>
+			</p>
+		</div>
+	</div>
+</body>
+</html>
